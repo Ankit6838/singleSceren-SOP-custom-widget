@@ -3365,7 +3365,7 @@ export class SingleScreen {
                         () => (mapOptions.style.transform = 'translateX(494px)')
                     );
                 }
-                if (this.eventPanelVisible || this.unitPanelVisible) {
+                if (!this.dockPanelsToOppositeSide && (this.eventPanelVisible || this.unitPanelVisible)) {
                     x = '500px';
                     if (mapOptions) {
                         initialTransforms.push(
@@ -3421,7 +3421,7 @@ export class SingleScreen {
                 shiftX();
                 shiftY();
                 if (el.dataset.viewKey !== 'COMMAND_LINE_VIEW') {
-                    if (this.eventPanelVisible || this.unitPanelVisible) {
+                    if (!this.dockPanelsToOppositeSide && (this.eventPanelVisible || this.unitPanelVisible)) {
                         if (mapOptions) {
                             mapOptions.style.transform = 'translateX(930px)';
                             if (
@@ -3471,7 +3471,8 @@ export class SingleScreen {
             dataViewKey !== 'CUSTOM_FEED_VIEW' &&
             dataViewKey !== 'CUSTOM_VIEWS'
         ) {
-            if (!this.eventPanelVisible && !this.unitPanelVisible) {
+            if ((this.dockPanelsToOppositeSide && (this.eventPanelVisible || this.unitPanelVisible)) ||
+                (!this.eventPanelVisible && !this.unitPanelVisible)) {
                 const x = this.getTranslateX(mapOptions);
                 if (x !== '0px') {
                     mapOptions.style.transform = 'translateX(0px)';
@@ -3519,7 +3520,7 @@ export class SingleScreen {
                 this.resetMapOptionsPosition(dataViewKey, mapOptions);
                 break;
             case DockDirection.Left:
-                if (this.eventPanelVisible || this.unitPanelVisible) {
+                if (!this.dockPanelsToOppositeSide && this.eventPanelVisible || this.unitPanelVisible) {
                     if (
                         el.dataset.viewKey === 'Informer AdHoc Query' ||
                         el.dataset.viewKey === 'Smart Advisor'
@@ -3718,7 +3719,7 @@ export class SingleScreen {
         if (this.eventPanelVisible !== showingEventPanel) {
             this.eventPanelVisible = showingEventPanel;
 
-            if (this.eventPanelVisible && this.hasEventPanel) {
+            if (!this.dockPanelsToOppositeSide && this.eventPanelVisible && this.hasEventPanel) {
                 if (dir === 'left' && this.widgetPanelOpen) {
                     customWidgetPanel.style.transform = 'translateX(930px)';
                     mapOptions.style.transform = 'translateX(930px)';
@@ -3740,7 +3741,7 @@ export class SingleScreen {
         if (this.unitPanelVisible !== showingUnitPanel) {
             this.unitPanelVisible = showingUnitPanel;
 
-            if (this.unitPanelVisible) {
+            if (!this.dockPanelsToOppositeSide && this.unitPanelVisible) {
                 if (dir === 'left' && this.widgetPanelOpen) {
                     customWidgetPanel.style.transform = 'translateX(930px)';
                     mapOptions.style.transform = 'translateX(930px)';
